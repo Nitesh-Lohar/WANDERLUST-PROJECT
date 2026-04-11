@@ -1,44 +1,103 @@
 <%layout("/layouts/boilerplate.ejs")%>
 <div class="row mt-3">
-    <div class="col-8 offset-2">
-     <h3 class="pt-3">Edit Listing</h3>
-    <form method="post" action="/listings/<%=listing._id%>?_method=PUT">
+  <div class="col-8 offset-2">
+    <h3 class="pt-3">Edit Listing</h3>
+    <form
+      method="post"
+      action="/listings/<%=listing._id%>?_method=PUT"
+      novalidate
+      class="needs-validation"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          name="listing[title]"
+          value="<%=listing.title%>"
+          required
+          type="text"
+          class="form-control"
+        />
 
-        <div class="mb-3">
-            <label for="title" class="form-label">Title</label>
-            <input  name="listing[title]" value="<%=listing.title%>" type="text" class="form-control">
-        </div>
+        <div class="valid-feedback">Title looks good</div>
+        <div class="invalid-feedback">Enter a valid title</div>
+      </div>
 
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <textarea  name="listing[description]" type="text" class="form-control"><%=listing.description%></textarea>
-        </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="listing[description]"
+          type="text"
+          class="form-control"
+          required
+        >
+<%=listing.description%></textarea
+        >
+        <div class="valid-feedback">Looks good</div>
+        <div class="invalid-feedback">Enter a short description</div>
+      </div>
 
-        <div class="mb-3">
-            <label for="url" class="form-label">Image Link</label>
-            <input  name="listing[image][url]" value="<%=listing.image.url%>" type="text" class="form-control">
-        </div>
+      <div class="mb-3">
+        <label for="url" class="form-label">Image Link</label>
+        <input
+          name="listing[image][url]"
+          value="<%=listing.image.url%>"
+          required
+          type="text"
+          class="form-control"
+        />
+        <div class="valid-feedback">Looks good</div>
+        <div class="invalid-feedback">Enter URL of Image</div>
+      </div>
 
-        <div class="row">
+      <div class="row">
         <div class="mb-3 col-md-4">
-            <label for="price" class="form-label">Price</label>
-            <input  name="listing[price]" value="<%=listing.price%>" type="number" class="form-control">
+          <label for="price" class="form-label">Price</label>
+          <input
+            name="listing[price]"
+            value="<%=listing.price%>"
+            required
+            type="number"
+            class="form-control"
+          />
+          <div class="valid-feedback">Looks good</div>
+          <div class="invalid-feedback">Enter Price</div>
         </div>
 
         <div class="mb-3 col-md-8">
-            <label for="country" class="form-label">Country</label>
-            <input  name="listing[country]" value="<%=listing.country%>" type="text" class="form-control">
+          <label for="country" class="form-label">Country</label>
+          <input
+            name="listing[country]"
+            value="<%=listing.country%>"
+            required
+            type="text"
+            class="form-control"
+          />
+          <div class="valid-feedback">Looks good</div>
+          <div class="invalid-feedback">Enter Country Name</div>
         </div>
-        </div>
+      </div>
 
-        <div class="mb-3">
-            <label for="location" class="form-label">Location</label>
-            <input  name="listing[location]" value="<%=listing.location%>" type="text" class="form-control">
-        </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          name="listing[location]"
+          value="<%=listing.location%>"
+          required
+          type="text"
+          class="form-control"
+        />
+        <div class="valid-feedback">Looks good</div>
+        <div class="invalid-feedback">Enter Location of the Property</div>
+      </div>
 
-        <div class="d-flex justify-content-center mt-3">
-            <button class="btn btn-dark" style="background-color: #fe424d; border: none;">Edit</button>
-        </div>
+      <div class="d-flex justify-content-center mt-3">
+        <button
+          class="btn btn-dark"
+          style="background-color: #fe424d; border: none"
+        >
+          Edit
+        </button>
+      </div>
     </form>
-    </div>
-    </div>
+  </div>
+</div>
