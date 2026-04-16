@@ -19,6 +19,7 @@
     </div>
   </div>
 
+  <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
   <div class="col-6 offset-3 mt-3">
     <div class="d-flex justify-content-center gap-5">
       <a
@@ -32,43 +33,46 @@
       </form>
     </div>
   </div>
+  <%}%>
 
-  <div class="col-6 offset-3 mt-3">
-    <hr />
-    <h4>Leave a Review</h4>
-    <form
-      action="/listings/a/<%=listing._id%>/reviews"
-      method="post"
-      novalidate
-      class="needs-validation"
-    >
-      <div class="col-4">
-        <label for="rating" class="form-label">Rating</label>
-        <input
-          type="range"
-          min="1"
-          max="5"
-          class="form-range"
-          id="rating"
-          name="review[rating]"
-        />
+  <% if(currUser) { %>
+    <div class="col-6 offset-3 mt-3"><hr />
+      <h4>Leave a Review</h4>
+        <form
+          action="/listings/a/<%=listing._id%>/reviews"
+          method="post"
+          novalidate
+          class="needs-validation"
+        >
+          <div class="col-4">
+            <label for="rating" class="form-label">Rating</label>
+            <input
+              type="range"
+              min="1"
+              max="5"
+              class="form-range"
+              id="rating"
+              name="review[rating]"
+            />
+          </div>
+
+          <div class="col-8">
+            <label for="comment" class="form-label">Comments</label>
+            <textarea
+              name="review[comment]"
+              id="comment"
+              class="form-control"
+              cols="30"
+              rows="5"
+              placeholder="Enter your review"
+              required
+            ></textarea>
+            <div class="invalid-feedback">Please enter your review.</div>
+          </div>
+          <button class="btn btn-outline-dark mt-2">Submit</button>
+        </form>
       </div>
-      <div class="col-8">
-        <label for="comment" class="form-label">Comments</label>
-        <textarea
-          name="review[comment]"
-          id="comment"
-          class="form-control"
-          cols="30"
-          rows="5"
-          placeholder="Enter your review"
-          required
-        ></textarea>
-        <div class="invalid-feedback">Please enter your review.</div>
-      </div>
-      <button class="btn btn-outline-dark mt-2">Submit</button>
-    </form>
-  </div>
+      <%}%>
 
   <div class="col-6 offset-3 mt-5">
     <hr>
@@ -78,7 +82,7 @@
     <% for (review of listing.reviews) { %>
       <div class="card mt-2 col-5 ms-2 mb-2">
         <div class="card-body">
-          <h5 class="card-title">Jhon Doe</h5>
+          <h5 class="card-title">@<%=review.author.username%></h5>
           <p class="card-text"><%= review.comment %></p>
           <p class="card-text">Rating: <%= review.rating %></p>
           <form class="mb-2" method="post" action="/listings/a/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">

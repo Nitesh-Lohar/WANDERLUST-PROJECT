@@ -1,23 +1,8 @@
 const express = require("express");
 const router = express.Router();
-
 const wrapAsync = require("../utils/wrapAsync.js");
-
-const ExpressError = require("../utils/ExpressError.js");
-const { listingSchema } = require("../joiSchema.js");
 const Listing = require("../models/listing.model.js");
-const { isLoggedIn, isOwner } = require("../authMiddleware.js");
-
-// Validation Listing Middleware
-const validateListing = (req, res, next) => {
-  let { error } = listingSchema.validate(req.body);
-  console.log(error);
-  if (error) {
-    throw new ExpressError(400, error.details[0].message);
-  } else {
-    next();
-  }
-};
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 
 // Index Route
 router.get(
@@ -53,7 +38,7 @@ router.get(
   wrapAsync(async (req, res) => {
     let { id } = req.params;
     const listing = await Listing.findById(id)
-      .populate("reviews")
+      .populate({path: "reviews", populate:{path:"author"}})
       .populate("owner");
     if (!listing) {
       req.flash("error", "Not Exist");
