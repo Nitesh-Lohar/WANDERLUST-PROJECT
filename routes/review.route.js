@@ -6,8 +6,8 @@ const ExpressError = require("../utils/ExpressError.js");
 
 const { reviewSchema } = require("../joiSchema.js");
 
-const Review = require("../models/review.js");
-const Listing = require("../models/listing.js");
+const Review = require("../models/review.model.js");
+const Listing = require("../models/listing.model.js");
 
 
 
@@ -33,7 +33,7 @@ router.post(
     listing.reviews.push(newReview);
     await newReview.save();
     await listing.save();
-
+    req.flash("success","Review recorded!")
     res.redirect(`/listings/a/${listing._id}`);
   }),
 );
@@ -46,7 +46,7 @@ router.delete(
 
     await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
-
+    req.flash("success","Review Deleted!")
     res.redirect(`/listings/a/${id}`);
   }),
 );
