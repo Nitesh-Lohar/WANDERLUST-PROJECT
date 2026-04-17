@@ -74,7 +74,7 @@ app.use((req, res, next) => {
 
 // Express Router for listings and Review
 app.use("/listings", listingRouter);
-app.use("/listings/a/:id/reviews", reviewRouter);
+app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 
 // Error Handling

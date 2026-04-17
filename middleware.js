@@ -6,7 +6,9 @@ const Review = require("./models/review.model.js");
 
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
-    req.session.redirectUrl = req.originalUrl;
+    if (req.method === "GET") {
+      req.session.redirectUrl = req.originalUrl;
+    }
     req.flash("error", "You must be logged-in");
     return res.redirect("/login");
   }
@@ -26,7 +28,7 @@ module.exports.isOwner =async (req,res,next)=>{
     let listing = await Listing.findById(id);
     if (!listing.owner.equals(res.locals.currUser._id)) {
       req.flash("error", "You are not the owner of this listing");
-      return res.redirect(`/listings/a/${id}`);
+      return res.redirect(`/listings/${id}`);
     }
   next();
 }
@@ -55,7 +57,7 @@ module.exports.isReviewAuthor =async (req,res,next)=>{
     let review = await Review.findById(reviewId);
     if (!review.author.equals(res.locals.currUser._id)) {
       req.flash("error", "You are not the author");
-      return res.redirect(`/listings/a/${id}`);
+      return res.redirect(`/listings/${id}`);
     }
   next();
 }
